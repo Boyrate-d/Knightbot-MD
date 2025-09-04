@@ -39,48 +39,7 @@ const {
 const NodeCache = require("node-cache")
 const pino = require("pino")
 const readline = require("readline")
-const { parsePhoneNumber } = require("libphonenumber-js")
-const { PHONENUMBER_MCC } = require('@whiskeysockets/baileys/lib/Utils/generics')
-const { rmSync, existsSync } = require('fs')
-const { join } = require('path')
-
-// Create a store object with required methods
-const store = {
-    messages: {},
-    contacts: {},
-    chats: {},
-    groupMetadata: async (jid) => {
-        return {}
-    },
-    bind: function(ev) {
-        // Handle events
-        ev.on('messages.upsert', ({ messages }) => {
-            messages.forEach(msg => {
-                if (msg.key && msg.key.remoteJid) {
-                    this.messages[msg.key.remoteJid] = this.messages[msg.key.remoteJid] || {}
-                    this.messages[msg.key.remoteJid][msg.key.id] = msg
-                }
-            })
-        })
-        
-        ev.on('contacts.update', (contacts) => {
-            contacts.forEach(contact => {
-                if (contact.id) {
-                    this.contacts[contact.id] = contact
-                }
-            })
-        })
-        
-        ev.on('chats.set', (chats) => {
-            this.chats = chats
-        })
-    },
-    loadMessage: async (jid, id) => {
-        return this.messages[jid]?.[id] || null
-    }
-}
-
-let phoneNumber = "911234567890"
+const { parsePhoneNumber } "
 let owner = JSON.parse(fs.readFileSync('./data/owner.json'))
 
 global.botname = "KNIGHT BOT"
